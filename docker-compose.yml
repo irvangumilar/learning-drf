@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  rest:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/app
+    depends_on:
+      - rest_db
+  rest_db:
+    restart: always
+    image: postgres
+    environment:
+      POSTGRES_DB: rest_db
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: admin12345
+    volumes:
+      - ./data/db_postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
